@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.deliverydates.R
-import com.example.deliverydates.model.DeliveryDates
+import com.example.deliverydates.model.DeliveryDate
 import kotlinx.android.synthetic.main.item_deliverydate.view.*
 
-class DeliveryDatesListAdapter (private val deliveryDatesList: ArrayList<DeliveryDates>):
+class DeliveryDatesListAdapter (private val deliveryDateList: ArrayList<DeliveryDate>):
     RecyclerView.Adapter<DeliveryDatesListAdapter.DeliveryDatesViewHolder>() {
 
-    fun updateDeliveryDatesList(newdeliveryDatesList: List<DeliveryDates>){
-       deliveryDatesList.clear()
-       deliveryDatesList.addAll(newdeliveryDatesList)
+    fun updateDeliveryDatesList(newdeliveryDateList: List<DeliveryDate>){
+       deliveryDateList.clear()
+       deliveryDateList.addAll(newdeliveryDateList)
        notifyDataSetChanged()
     }
 
@@ -24,11 +24,11 @@ class DeliveryDatesListAdapter (private val deliveryDatesList: ArrayList<Deliver
 
     }
 
-    override fun getItemCount() = deliveryDatesList.size
+    override fun getItemCount() = deliveryDateList.size
 
     override fun onBindViewHolder(holder: DeliveryDatesViewHolder, position: Int) {
-        holder.view.deliveryDate.text = deliveryDatesList[position].deliveryDate
-        if (deliveryDatesList[position].isGreenDelivery){
+        holder.view.deliveryDate.text = deliveryDateList[position].deliveryDate
+        if (deliveryDateList[position].isGreenDelivery){
         holder.view.isGreenDelivery.text= "TRUE"
         }
         else holder.view.isGreenDelivery.text = "FALSE"

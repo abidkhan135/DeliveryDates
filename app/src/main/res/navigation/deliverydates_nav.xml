@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deliverydates_nav"
+    app:startDestination="@id/postalCodeFragment">
+
+    <fragment
+        android:id="@+id/postalCodeFragment"
+        android:name="com.example.deliverydates.view.PostalCodeFragment"
+        android:label="fragment_postal_code"
+        tools:layout="@layout/fragment_postal_code" >
+        <action
+            android:id="@+id/actionGoToDeliveryDates"
+            app:destination="@id/deliveryDatesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryDatesFragment"
+        android:name="com.example.deliverydates.view.DeliveryDatesFragment"
+        android:label="fragment_delivery_dates"
+        tools:layout="@layout/fragment_delivery_dates" >
+        <action
+            android:id="@+id/actionGoToPostalCode"
+            app:destination="@id/postalCodeFragment" />
+        <argument
+            android:name="postalcode"
+            app:argType="integer" />
+    </fragment>
+</navigation>

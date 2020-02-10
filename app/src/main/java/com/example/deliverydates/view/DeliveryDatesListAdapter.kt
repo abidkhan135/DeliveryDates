@@ -27,7 +27,7 @@ class DeliveryDatesListAdapter (private val deliveryDateList: ArrayList<Delivery
     override fun getItemCount() = deliveryDateList.size
 
     override fun onBindViewHolder(holder: DeliveryDatesViewHolder, position: Int) {
-        holder.view.deliveryDate.text = deliveryDateList[position].deliveryDate
+        holder.view.deliveryDate.text = deliveryDateList[position].deliveryDate.toString()
         if (deliveryDateList[position].isGreenDelivery){
         holder.view.isGreenDelivery.text= "TRUE"
         }

@@ -21,7 +21,7 @@ class DeliveryDatesFragment : Fragment() {
     private lateinit var viewModel: DeliveryDatesListViewModel
     private val listAdapter = DeliveryDatesListAdapter(arrayListOf())
 
-    private var postalCode = 0
+    private var postalCode: String? = null
 
     private val deliveryDatesListObserver = Observer<List<DeliveryDate>> { list ->
         list?.let {

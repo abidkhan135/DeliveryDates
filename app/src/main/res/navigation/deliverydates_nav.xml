@@ -24,6 +24,6 @@
             app:destination="@id/postalCodeFragment" />
         <argument
             android:name="postalcode"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>

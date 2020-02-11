@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.navigation.Navigation
 
 import com.example.deliverydates.R
@@ -26,10 +27,10 @@ class PostalCodeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+        var postalCode = postalCode.text.toString()
         buttonDeliveryDetail.setOnClickListener{
 
-            val action = PostalCodeFragmentDirections.actionGoToDeliveryDates(1234)
+            val action = PostalCodeFragmentDirections.actionGoToDeliveryDates(postalCode)
             Navigation.findNavController(it).navigate(action)
         }
     }

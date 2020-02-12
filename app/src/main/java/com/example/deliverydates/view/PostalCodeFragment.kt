@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.Navigation
 
 import com.example.deliverydates.R
@@ -14,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_postal_code.*
 
 
 class PostalCodeFragment : Fragment() {
-
 
 
     override fun onCreateView(
@@ -27,13 +27,14 @@ class PostalCodeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var postalCode = postalCode.text.toString()
-        buttonDeliveryDetail.setOnClickListener{
-
-            val action = PostalCodeFragmentDirections.actionGoToDeliveryDates(postalCode)
-            Navigation.findNavController(it).navigate(action)
+        buttonDeliveryDetail.setOnClickListener {
+            var postalcode = postalCode.text.toString()
+            if (postalcode.isNullOrEmpty()) {
+                Toast.makeText(context, "Plz enter the postal Code", Toast.LENGTH_SHORT).show()
+            } else {
+                val action = PostalCodeFragmentDirections.actionGoToDeliveryDates(postalcode)
+                Navigation.findNavController(it).navigate(action)
+            }
         }
     }
-
-
 }

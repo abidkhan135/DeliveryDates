@@ -29,9 +29,9 @@ class DeliveryDatesListAdapter (private val deliveryDateList: ArrayList<Delivery
     override fun onBindViewHolder(holder: DeliveryDatesViewHolder, position: Int) {
         holder.view.deliveryDate.text = deliveryDateList[position].deliveryDate.toString()
         if (deliveryDateList[position].isGreenDelivery){
-        holder.view.isGreenDelivery.text= "TRUE"
+        holder.view.isGreenDelivery.text= "Green Delivery"
         }
-        else holder.view.isGreenDelivery.text = "FALSE"
+        else holder.view.isGreenDelivery.text = "Normal Delivery"
 
 
     }

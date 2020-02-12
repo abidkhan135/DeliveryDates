@@ -56,9 +56,8 @@ class DeliveryDatesFragment : Fragment() {
 
         arguments?.let {
             postalCode = DeliveryDatesFragmentArgs.fromBundle(it).postalcode
-
         }
-
+        println("The postal code is ---->$postalCode")
         viewModel = ViewModelProviders.of(this).get(DeliveryDatesListViewModel::class.java)
         viewModel.deliveryDates.observe(this, deliveryDatesListObserver)
         viewModel.loadError.observe(this, errorLiveDataObserver)
@@ -71,10 +70,8 @@ class DeliveryDatesFragment : Fragment() {
         }
 
         refershLayout.setOnRefreshListener {
-            deliveryDatesList.visibility = View.GONE
+
             listError.visibility = View.GONE
-            loadingView.visibility = View.VISIBLE
-            viewModel.refresh(postalCode)
             refershLayout.isRefreshing = false
         }
     }

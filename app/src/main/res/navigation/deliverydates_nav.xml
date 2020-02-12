@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/postalCodeFragment"
         android:name="com.example.deliverydates.view.PostalCodeFragment"
-        android:label="fragment_postal_code"
-        tools:layout="@layout/fragment_postal_code" >
+        android:label="Delivery Date"
+        tools:layout="@layout/fragment_postal_code">
         <action
             android:id="@+id/actionGoToDeliveryDates"
             app:destination="@id/deliveryDatesFragment" />
@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/deliveryDatesFragment"
         android:name="com.example.deliverydates.view.DeliveryDatesFragment"
-        android:label="fragment_delivery_dates"
-        tools:layout="@layout/fragment_delivery_dates" >
+        android:label="Delivery Date List"
+        tools:layout="@layout/fragment_delivery_dates">
         <action
             android:id="@+id/actionGoToPostalCode"
             app:destination="@id/postalCodeFragment" />

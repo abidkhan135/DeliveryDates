@@ -14,8 +14,11 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
     val loadError by lazy { MutableLiveData<Boolean>() }
     val loading by lazy { MutableLiveData<Boolean>() }
     private val deliveryDatesMap = mutableMapOf<LocalDate, Boolean>()
+    val deliveryDatesList = arrayListOf<DeliveryDate>()
     private val finalDeliveryDates = mutableListOf<LocalDate>()
+    private val isGreenDeliveryDates = mutableListOf<LocalDate>()
     lateinit var productList: List<Product>
+    var greenDateCheck=true
 
     fun refresh(postalCode: String?) {
         getProductList()
@@ -44,9 +47,9 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
             "3",
             "Vegetable",
             listOf("13756", "16456"),
-            listOf(DayOfWeek.THURSDAY),
+            listOf(DayOfWeek.SUNDAY),
             ProductType.temporary,
-            4
+            3
         )
         val p4 = Product(
             "4",
@@ -79,20 +82,19 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
             for (deliveryDate in deliveryDatesMap.keys) {
                 val advanceDaysCheck = abs(LocalDate.now().dayOfMonth - deliveryDate.dayOfMonth)
                 val currentWeekDeliveryCheck =
-                    abs(deliveryDate.dayOfMonth - (deliveryDate.with(DayOfWeek.SUNDAY)).dayOfMonth)
+                    abs(LocalDate.now().dayOfMonth - (deliveryDate.with(DayOfWeek.SUNDAY)).dayOfMonth)
                 for (dayOfWeek in product.deliveryDays!!) {
-                    // if (product.productType?.equals("external")!! && difference>5 || ((product.productType?.equals("temporary")) && difference2 <=7) || product.productType.equals("normal"))
                     if (product.productType.toString().equals(ProductType.external.toString()) && advanceDaysCheck > 5) {
 
-                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product)
+                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product,code)
                     } else if (((product.productType.toString().equals(ProductType.temporary.toString())) && currentWeekDeliveryCheck <= 7)) {
 
-                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product)
+                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product, code)
                     } else if (product.productType.toString().equals(ProductType.normal.toString())) {
 
-                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product)
+                        getFinalDays(deliveryDate, dayOfWeek, advanceDaysCheck, product, code)
                     } else {
-                        println("No Delivery on Coming 14 Days " + product.productType)
+                         //Discard this Date
                     }
                 }
             }
@@ -103,12 +105,16 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
                 println("The Final date is --------------->" + deliveryDate.key)
             }
         }
-        val d1 = DeliveryDate("123", LocalDate.now(), true)
-        val d2 = DeliveryDate("123", LocalDate.now(), true)
-        val d3 = DeliveryDate("123", LocalDate.now(), true)
-        val d4 = DeliveryDate("123", LocalDate.now(), true)
+        for (finalDate in finalDeliveryDates){
 
-        val deliveryDatesList = arrayListOf(d1, d2, d3, d4)
+            if (greenDateCheck){
+                for (greenDate in isGreenDeliveryDates){
+                    deliveryDatesList.add(DeliveryDate(greenDate,true))
+                }
+                greenDateCheck = false
+            }
+            deliveryDatesList.add(DeliveryDate(finalDate,false))
+        }
         deliveryDates.value = deliveryDatesList
         loadError.value = false
         loading.value = false
@@ -118,10 +124,15 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
         deliveryDate: LocalDate,
         dayOfWeek: DayOfWeek,
         advanceDaysCheck: Int,
-        product: Product
+        product: Product,
+        code: String?
     ) {
         if (deliveryDate.dayOfWeek == dayOfWeek && advanceDaysCheck > product.daysInAdvance!!) {
-            deliveryDatesMap[deliveryDate] = true
+            if (product.postalCode.toString().contains(code.toString()) && advanceDaysCheck <=3){
+               isGreenDeliveryDates.add(deliveryDate)
+            }else{
+                deliveryDatesMap[deliveryDate] = true
+            }
         } else {
             // Discard the date
         }

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.example.deliverydates.R
 import com.example.deliverydates.model.DeliveryDate
 import com.example.deliverydates.viewmodel.DeliveryDatesListViewModel
@@ -20,7 +19,6 @@ class DeliveryDatesFragment : Fragment() {
 
     private lateinit var viewModel: DeliveryDatesListViewModel
     private val listAdapter = DeliveryDatesListAdapter(arrayListOf())
-
     private var postalCode: String? = null
 
     private val deliveryDatesListObserver = Observer<List<DeliveryDate>> { list ->
@@ -28,7 +26,6 @@ class DeliveryDatesFragment : Fragment() {
             deliveryDatesList.visibility = View.VISIBLE
             listAdapter.updateDeliveryDatesList(it)
         }
-
     }
     private val loadingLiveDataObserver = Observer<Boolean> { isLoading ->
         loadingView.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -36,7 +33,6 @@ class DeliveryDatesFragment : Fragment() {
             listError.visibility = View.GONE
             deliveryDatesList.visibility = View.GONE
         }
-
     }
     private val errorLiveDataObserver = Observer<Boolean> { isError ->
         listError.visibility = if (isError) View.VISIBLE else View.GONE
@@ -53,11 +49,9 @@ class DeliveryDatesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             postalCode = DeliveryDatesFragmentArgs.fromBundle(it).postalcode
         }
-        println("The postal code is ---->$postalCode")
         viewModel = ViewModelProviders.of(this).get(DeliveryDatesListViewModel::class.java)
         viewModel.deliveryDates.observe(this, deliveryDatesListObserver)
         viewModel.loadError.observe(this, errorLiveDataObserver)
@@ -68,13 +62,9 @@ class DeliveryDatesFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = listAdapter
         }
-
         refershLayout.setOnRefreshListener {
-
             listError.visibility = View.GONE
             refershLayout.isRefreshing = false
         }
     }
-
-
 }

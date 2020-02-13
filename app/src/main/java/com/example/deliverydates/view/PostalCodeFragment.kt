@@ -31,7 +31,10 @@ class PostalCodeFragment : Fragment() {
             var postalcode = postalCode.text.toString()
             if (postalcode.isNullOrEmpty()) {
                 Toast.makeText(context, "Plz enter the postal Code", Toast.LENGTH_SHORT).show()
-            } else {
+            } else if(postalcode.length<5 || postalcode.length>5){
+                Toast.makeText(context, "Plz enter valid postal Code", Toast.LENGTH_SHORT).show()
+            }
+            else {
                 val action = PostalCodeFragmentDirections.actionGoToDeliveryDates(postalcode)
                 Navigation.findNavController(it).navigate(action)
             }

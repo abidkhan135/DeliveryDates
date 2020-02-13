@@ -100,24 +100,29 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
             }
         }
         for (deliveryDate in deliveryDatesMap) {
+
             if (deliveryDate.value) {
                 finalDeliveryDates.add(deliveryDate.key)
-                println("The Final date is --------------->" + deliveryDate.key)
             }
         }
-        for (finalDate in finalDeliveryDates){
+        if (finalDeliveryDates.isNotEmpty()) {
+            for (finalDate in finalDeliveryDates) {
 
-            if (greenDateCheck){
-                for (greenDate in isGreenDeliveryDates){
-                    deliveryDatesList.add(DeliveryDate(greenDate,true))
+                if (greenDateCheck) {
+                    for (greenDate in isGreenDeliveryDates) {
+                        deliveryDatesList.add(DeliveryDate(greenDate, true))
+                    }
+                    greenDateCheck = false
                 }
-                greenDateCheck = false
+                deliveryDatesList.add(DeliveryDate(finalDate, false))
             }
-            deliveryDatesList.add(DeliveryDate(finalDate,false))
+            deliveryDates.value = deliveryDatesList
+            loadError.value = false
+            loading.value = false
+        }else{
+            deliveryDates.value = null
+            loadError.value = true
         }
-        deliveryDates.value = deliveryDatesList
-        loadError.value = false
-        loading.value = false
     }
 
     private fun getFinalDays(
@@ -130,7 +135,7 @@ class DeliveryDatesListViewModel(application: Application) : AndroidViewModel(ap
         if (deliveryDate.dayOfWeek == dayOfWeek && advanceDaysCheck > product.daysInAdvance!!) {
             if (product.postalCode.toString().contains(code.toString()) && advanceDaysCheck <=3){
                isGreenDeliveryDates.add(deliveryDate)
-            }else{
+            }else if (product.postalCode.toString().contains(code.toString())){
                 deliveryDatesMap[deliveryDate] = true
             }
         } else {
